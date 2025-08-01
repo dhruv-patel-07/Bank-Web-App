@@ -125,7 +125,6 @@ resilience4j.ratelimiter:
 ## 6. Project Structure
 <pre markdown="1">
 
-```
 transaction-service/
 ├── src/
 │   ├── main/
@@ -152,6 +151,6 @@ transaction-service/
 │           └── bank/
 │               └── web/
 │                   └── transaction/
-```
+
 
 </pre>
