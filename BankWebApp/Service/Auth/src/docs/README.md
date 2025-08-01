@@ -66,6 +66,7 @@ Base URL: `http://localhost:8222/api/v1/auth`
 
 ## Project Structure 📂
 
+<pre markdown="1"> ```
 Auth/
 ├── src/
 │ ├── main/
@@ -88,6 +89,7 @@ Auth/
 │ ├── controller/
 │ ├── service/
 │ └── Auth
-
+``` 
+</pre>
 
 ---
