@@ -66,3 +66,25 @@ Base URL: `http://localhost:8222/api/v1/auth`
 
 ## Project Structure 📂
 
+Auth/
+├── src/
+│ ├── main/
+│ │ ├── java/com/bank/web/app/auth/
+│ │ │ ├── config/
+│ │ │ ├── controller/
+│ │ │ ├── service/
+│ │ │ ├── repo/
+│ │ │ ├── model/
+│ │ │ ├── dto/
+│ │ │ ├── kafka/
+│ │ │ ├── validation/
+│ │ │ └── AuthApplication.java
+│ └── resources/
+│ ├── application.yml
+│ ├── static/
+│ └── templates/
+├── test/
+│ └── java/com/bank/web/app/auth/
+│ ├── controller/
+│ ├── service/
+│ └── Auth
