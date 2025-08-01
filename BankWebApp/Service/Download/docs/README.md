@@ -68,6 +68,8 @@ Redis is used for rate limiting functionality:
 
 ## 5. Project Structure
 
+<pre markdown="1">
+```
 download/
 ├── src/
 │ ├── main/
@@ -97,6 +99,8 @@ download/
 │ └── app/
 │ └── download/
 
+```
+<pre>
 
 ## Getting Started
 
