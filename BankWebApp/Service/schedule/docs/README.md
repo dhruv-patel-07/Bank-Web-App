@@ -76,11 +76,12 @@ Scope: All active loans
 
 ```
 ## Payment Reminders
+```
 Schedule: Daily at 2 PM (14:00)
 Cron: 0 0 14 * * *
 Action: Sends reminders 2 days before due date
 Channel: Email/SMS via Notification Service
-
+```
 <pre markdown="1">
 ```
 schedule-service/
@@ -110,4 +111,4 @@ schedule-service/
 │               └── web/
 │                   └── schedule/
 ```
-<pre>
+</pre>
