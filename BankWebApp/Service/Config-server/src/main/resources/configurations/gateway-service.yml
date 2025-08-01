@@ -1,0 +1,86 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9098/realms/bank-web-app
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: auth-service
+              uri: lb:http://AUTH-SERVICE
+              predicates:
+                - Path=/api/v1/auth/**
+            - id: account-service
+              uri: lb:http://ACCOUNT-SERVICE
+              predicates:
+                - Path=/api/v1/account/user/**
+            - id: transaction-service
+              uri: lb:http://TRANSACTION-SERVICE
+              predicates:
+                - Path=/api/v1/transaction/**
+            - id: download-service
+              uri: lb:http://DOWNLOAD-SERVICE
+              predicates:
+                - Path=/api/v1/download/**
+            - id: notification-service
+              uri: lb:http://NOTIFICATION-SERVICE
+              predicates:
+                - Path=/api/v1/notification/**
+
+        discovery:
+          locator:
+            enabled: true
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: redisGroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+        spring.json.type.mapping: RedisTokenDto:com.bank.web.app.api.gatway.ApiGatway.Redis.RedisTokenDto
+  #    Redis
+  data:
+    redis:
+      host: localhost
+      port: 6380
+  cache:
+    type: redis
+
+server:
+  port: 8222
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    reactor.netty.http.server: DEBUG
+
+kafkaTopic:
+  topic: authRedisToken
+
+keycloak:
+  server-url: http://localhost:9098
+  realm: bank-web-app
+  client-id: bank-web-app
+  client-secret: DLgeq3UxbdxF6TGwIoqasUNUViyCMPjp
+  admin-username: admin
+  admin-password: admin
+
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true          # Enables circuit breaker health indicators
+  endpoints:
+    web:
+      exposure:
+        include: health      # Exposes only the /actuator/health endpoint over HTTP
+  endpoint:
+    health:
+      show-details: ALWAYS

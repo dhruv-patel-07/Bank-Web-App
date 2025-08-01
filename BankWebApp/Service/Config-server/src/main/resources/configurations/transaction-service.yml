@@ -1,0 +1,78 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5435/account_transaction
+    username: dhruv
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  elasticsearch:
+    uris: http://localhost:9200
+    username:
+    password:
+
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: transactionGroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+        spring.json.type.mapping: AccountKafkaDTO:com.bank.web.app.transaction.kafka.AccountKafkaDTO,LoanPaymentDTO:com.bank.web.app.transaction.kafka.LoanPaymentDTO,AddInterestDTO:com.bank.web.app.transaction.dto.AddInterestDTO,RecurringPayment:com.bank.web.app.transaction.kafka.RecurringPayment
+
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping: TransactionEmail:com.bank.web.app.transaction.kafka.producer.TransactionEmail,LoanPaymentScheduleProducer:com.bank.web.app.transaction.kafka.producer.LoanPaymentScheduleProducer,LoanPaymentFailedDTO:com.bank.web.app.transaction.kafka.producer.LoanPaymentFailedDTO,FreezeAccount:com.bank.web.app.transaction.dto.FreezeAccount
+
+
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true          # Enables circuit breaker health indicators
+  endpoints:
+    web:
+      exposure:
+        include: health      # Exposes only the /actuator/health endpoint over HTTP
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      transactionService:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 7s
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+
+
+server:
+  port: 8090
+
+kafkaTopic:
+  topic: transactionTopic
+  Email: transactionEmailTopic
+  loan: loanTopic
+  loanPayment: LoanPaymentTopic
+  loanRepayment: LoanRePayment
+  loanFailed: LoanPaymentFailed
+  interest: InterestCreditTopic
+  recurring: RecurringPaymentTopic
+  freezeAccount: freezeAccountTopic
+

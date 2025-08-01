@@ -1,0 +1,458 @@
+openapi: 3.1.0
+info:
+  title: My API
+  description: This is a sample Spring Boot REST API documented using Swagger
+  version: "1.0"
+servers:
+- url: http://localhost:8085
+  description: Generated server url
+paths:
+  /api/v1/account/user/close-fd:
+    put:
+      tags:
+      - account-user-controller
+      operationId: closeFD
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FdWithdraw"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseDTO"
+  /api/v1/account/user/active-account/{uid}:
+    put:
+      tags:
+      - account-user-controller
+      operationId: activateAccount
+      parameters:
+      - name: uid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseDTO"
+  /api/v1/account/user/start-fd:
+    post:
+      tags:
+      - account-user-controller
+      operationId: startFD
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newFDdto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseDTO"
+  /api/v1/account/user/recurring-account-calculator:
+    post:
+      tags:
+      - account-user-controller
+      operationId: recurring
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecurringAccountCalculator"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseDTO"
+  /api/v1/account/user/create-loan-account:
+    post:
+      tags:
+      - account-user-controller
+      operationId: createLoanAccounts
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewLoanDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseDTO"
+  /api/v1/account/user/create-account:
+    post:
+      tags:
+      - account-user-controller
+      operationId: createAccounts
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountUserDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseDTO"
+  /api/v1/account/user/add-interst-rate:
+    post:
+      tags:
+      - account-user-controller
+      operationId: addLoanInterestRate
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InterestRateDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseDTO"
+  /api/v1/account/user/add-employee:
+    post:
+      tags:
+      - account-user-controller
+      operationId: addEmployee
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseDTO"
+  /api/v1/account/user/add-branch:
+    post:
+      tags:
+      - account-user-controller
+      operationId: addBranch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BranchDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseDTO"
+  /api/v1/account/user/pending-active-account:
+    get:
+      tags:
+      - account-user-controller
+      operationId: NotActiveAccount
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseDTO"
+  /api/v1/account/user/my-fds/{account}:
+    get:
+      tags:
+      - account-user-controller
+      operationId: getFd
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: account
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseDTO"
+  /api/v1/account/user/get-branch-name/{uid}:
+    get:
+      tags:
+      - account-user-controller
+      operationId: BranchDetails
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: uid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/v1/account/user/get-account-details/{account}:
+    get:
+      tags:
+      - account-user-controller
+      operationId: getAccountDetails
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: account
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserInfoDTO"
+  /api/v1/account/user/check-balance:
+    get:
+      tags:
+      - account-user-controller
+      operationId: creditTransactionUpdate
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BalanceCheck"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseDTO"
+components:
+  schemas:
+    FdWithdraw:
+      type: object
+      properties:
+        fdNum:
+          type: integer
+          format: int64
+    ResponseDTO:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        object: {}
+    newFDdto:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: double
+        month:
+          type: integer
+          format: int32
+        accountNum:
+          type: integer
+          format: int64
+    RecurringAccountCalculator:
+      type: object
+      properties:
+        monthlyAmount:
+          type: number
+          format: double
+        months:
+          type: integer
+          format: int32
+    NewLoanDTO:
+      type: object
+      properties:
+        accountNum:
+          type: integer
+          format: int64
+        loanType:
+          type: string
+        loanAmount:
+          type: number
+          format: double
+        duration:
+          type: integer
+          format: int32
+    AccountUserDto:
+      type: object
+      properties:
+        contact:
+          type: string
+          minLength: 1
+        aadharNumber:
+          type: string
+          minLength: 1
+        panCardNumber:
+          type: string
+          minLength: 1
+        branch:
+          type: string
+        accountType:
+          type: string
+        monthlyAmount:
+          type: number
+          format: double
+        months:
+          type: integer
+          format: int32
+        sipDate:
+          type: string
+      required:
+      - aadharNumber
+      - branch
+      - contact
+      - panCardNumber
+    InterestRateDTO:
+      type: object
+      properties:
+        oneYearIncrement:
+          type: number
+          format: float
+        loanType:
+          type: string
+        fixedRate:
+          type: number
+          format: float
+    EmployeeDTO:
+      type: object
+      properties:
+        position:
+          type: string
+        branchId:
+          type: string
+    BranchDTO:
+      type: object
+      properties:
+        branchName:
+          type: string
+          minLength: 1
+        branchCode:
+          type: string
+          minLength: 1
+        address:
+          type: string
+          minLength: 1
+        phoneNumber:
+          type: string
+          pattern: "^\\+91\\d{10}$"
+      required:
+      - address
+      - branchCode
+      - branchName
+    UserInfoDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        accountNum:
+          type: string
+        branch:
+          type: string
+        type:
+          type: string
+        uid:
+          type: string
+        email:
+          type: string
+    BalanceCheck:
+      type: object
+      properties:
+        accountNum:
+          type: integer
+          format: int64

@@ -1,0 +1,67 @@
+spring:
+  kafka:
+    consumer:
+#      enable-auto-commit: false
+      bootstrap-servers: localhost:9092
+      group-id: verificationGroup,newAccountGroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+        spring.json.type.mapping: AuthDto:com.bank.web.app.notification.Kafka.AuthDto,AccountKafkaDTO:com.bank.web.app.notification.Kafka.AccountKafkaDTO,TransactionEmail:com.bank.web.app.notification.Kafka.TransactionEmail,LoanPaymentDTO:com.bank.web.app.notification.Kafka.LoanPaymentDTO,LoanPaymentFailedDTO:com.bank.web.app.notification.Kafka.LoanPaymentFailedDTO,EmailWithAttachmentDTO:com.bank.web.app.notification.Kafka.EmailWithAttachmentDTO,FreezeAccount:com.bank.web.app.notification.Kafka.FreezeAccount
+#    listener:
+#      ack-mode: manual_immediate
+
+  mail:
+    host: localhost
+    port: 1025
+    username: test
+    password: test
+    properties:
+      mail:
+        smtp:
+          trust: "*"
+        auth: true
+        starttls:
+          enable: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
+
+management:        # Enables circuit breaker health indicators
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+#spring:
+#  mail:
+#    host: localhost
+#    port: 1025
+#    username: ""    # empty or remove
+#    password: ""    # empty or remove
+#    properties:
+#      mail:
+#        smtp:
+#          auth: false
+#          starttls:
+#            enable: false
+#        connectiontimeout: 5000
+#        timeout: 3000
+#        writetimeout: 5000
+
+server:
+  port: 8060
+
+kafkaTopic:
+  topic: authTopic
+  accountTopic: newAccount
+  TransactionEmail: transactionEmailTopic
+  loan: loanTopic
+  loanRepayment: LoanRePayment
+  loanFailed: LoanPaymentFailed
+  loanReminder: LoanReminderTopic
+  statementEmail: StatementEmailTopic
+  requestStatement: RequestStatementTopic
+  freezeAccount: freezeAccountTopic

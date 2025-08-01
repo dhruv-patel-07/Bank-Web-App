@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Recurring Account Payment</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .email-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .success-message {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+        .transaction-details {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .transaction-details h3 {
+            color: #495057;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 20px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: #6c757d;
+            flex: 1;
+        }
+        .detail-value {
+            font-weight: 500;
+            color: #2c3e50;
+            flex: 1;
+            text-align: right;
+        }
+        .amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: #28a745;
+        }
+        .info-section {
+            background-color: #e7f3ff;
+            border-left: 4px solid #007bff;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .info-section h4 {
+            color: #0056b3;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .footer p {
+            margin: 5px 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .support-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .support-link:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .content {
+                padding: 25px 20px;
+            }
+            .header {
+                padding: 20px;
+            }
+            .transaction-details {
+                padding: 20px;
+            }
+            .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .detail-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <!-- Header -->
+    <div class="header">
+        <div class="success-icon">✅</div>
+        <h1>Payment Successful</h1>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="greeting">
+            Hello <span th:text="${email}">customer@example.com</span>,
+        </div>
+
+        <div class="success-message">
+            Your recurring account payment has been processed successfully!
+        </div>
+
+        <p>We're pleased to confirm that your scheduled payment has been completed. Below are the details of your transaction:</p>
+
+        <!-- Transaction Details -->
+        <div class="transaction-details">
+            <h3>Transaction Details</h3>
+
+            <div class="detail-row">
+                <div class="detail-label">Account Number:</div>
+                <div class="detail-value" th:text="${accountNum}">****1234</div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Amount:</div>
+                <div class="detail-value amount" th:text="${amount}">$99.99</div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Transaction Date:</div>
+                <div class="detail-value" th:text="${#temporals.format(date, 'MMM dd, yyyy HH:mm:ss')}">Jan 15, 2025 14:30:45</div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Reference ID:</div>
+                <div class="detail-value" th:text="${referenceID}">TXN123456789</div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Payment Method:</div>
+                <div class="detail-value" th:text="${method}">Credit Card</div>
+            </div>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="info-section">
+            <h4>Important Information</h4>
+            <ul style="margin: 0; padding-left: 20px;">
+                <li>This is an automated recurring payment as per your subscription</li>
+                <li>Your next payment will be processed automatically on the same date next month</li>
+                <li>Keep this email for your records</li>
+                <li>If you have any questions, please contact our support team</li>
+            </ul>
+        </div>
+
+        <p>Thank you for choosing our services. We appreciate your continued trust in us.</p>
+
+        <p style="margin-top: 30px;">
+            <strong>Need help?</strong> Our support team is available 24/7 to assist you with any questions or concerns.
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>Your Company Name</strong></p>
+        <p>123 Business Street, City, State 12345</p>
+        <p>
+            Questions? Contact us at
+            <a href="mailto:support@yourcompany.com" class="support-link">support@yourcompany.com</a>
+            or call (555) 123-4567
+        </p>
+        <p style="margin-top: 15px; font-size: 12px; color: #999;">
+            This is an automated email. Please do not reply directly to this message.
+        </p>
+    </div>
+</div>
+</body>
+</html>

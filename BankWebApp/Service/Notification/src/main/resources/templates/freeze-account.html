@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Status Notification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .email-wrapper {
+            padding: 40px 20px;
+        }
+        .email-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00d4aa, #00b4db, #0083b0);
+        }
+        .bank-logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 0;
+        }
+        .content {
+            padding: 35px;
+        }
+        .greeting {
+            font-size: 16px;
+            margin-bottom: 25px;
+            color: #444;
+        }
+        .status-alert {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+            position: relative;
+            border-left: 4px solid;
+        }
+        .freeze {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            border-left-color: #c92a2a;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+        .unfreeze {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+            color: white;
+            border-left-color: #2b8a3e;
+            box-shadow: 0 4px 15px rgba(81, 207, 102, 0.3);
+        }
+        .account-info {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f1f3ff 100%);
+            border: 1px solid #e3e8ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+        }
+        .account-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 10px 10px 0 0;
+        }
+        .info-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .info-title::before {
+            content: '🏦';
+            margin-right: 8px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .label {
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 14px;
+        }
+        .value {
+            font-weight: 500;
+            color: #2d3748;
+            font-size: 14px;
+        }
+        .action-message {
+            background: linear-gradient(135deg, #fef5e7 0%, #fed7aa 100%);
+            border: 1px solid #f6ad55;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .contact-number {
+            color: #2b6cb0;
+            font-weight: 700;
+            font-size: 18px;
+            text-decoration: none;
+        }
+        .success-message {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border: 1px solid #68d391;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+            color: #2f855a;
+        }
+        .closing {
+            margin-top: 30px;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+        .signature {
+            font-weight: 600;
+            color: #2d3748;
+            margin-top: 15px;
+        }
+        .footer {
+            background: #f7fafc;
+            padding: 20px 35px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .footer-text {
+            font-size: 12px;
+            color: #718096;
+            margin: 5px 0;
+        }
+        .icon {
+            display: inline-block;
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="email-wrapper">
+    <div class="email-container">
+        <div class="header">
+            <div class="bank-logo">SecureBank</div>
+            <p class="subtitle">Your trusted financial partner</p>
+        </div>
+
+        <div class="content">
+            <div class="greeting">Dear Valued Customer,</div>
+
+            <div th:class="${isFreeze} ? 'status-alert freeze' : 'status-alert unfreeze'">
+                <span class="icon" th:if="${isFreeze}">🔒</span>
+                <span class="icon" th:unless="${isFreeze}">✅</span>
+                <span th:if="${isFreeze}">Account Temporarily Frozen</span>
+                <span th:unless="${isFreeze}">Account Successfully Reactivated</span>
+            </div>
+
+            <div class="account-info">
+                <div class="info-title">Account Details</div>
+                <div class="info-row">
+                    <span class="label">Account Number</span>
+                    <span class="value" th:text="${accountNum}">XXXXXXXXXX1234</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Date & Time</span>
+                    <span class="value" th:text="${#temporals.format(Date, 'dd MMM yyyy, HH:mm')}">01 Jan 2024, 10:30</span>
+                </div>
+                <div class="info-row" th:if="${remark != null and !#strings.isEmpty(remark)}">
+                    <span class="label">Reason</span>
+                    <span class="value" th:text="${remark}">Security measure</span>
+                </div>
+            </div>
+
+            <div th:if="${isFreeze}" class="action-message">
+                <p style="margin: 0 0 10px 0; font-weight: 600;">Immediate Action Required</p>
+                <p style="margin: 0;">Please contact our customer service team:</p>
+                <p style="margin: 10px 0 0 0;">
+                    <a href="tel:1-800-732-8731" class="contact-number">📞 1-800-SECURE-1</a>
+                </p>
+            </div>
+
+            <div th:unless="${isFreeze}" class="success-message">
+                <p style="margin: 0; font-weight: 600;">🎉 Your account is now fully operational!</p>
+                <p style="margin: 10px 0 0 0;">All banking services have been restored.</p>
+            </div>
+
+            <div class="closing">
+                <p th:if="${isFreeze}">We apologize for any inconvenience and appreciate your prompt attention to this matter.</p>
+                <p th:unless="${isFreeze}">Thank you for your patience while we ensured the security of your account.</p>
+
+                <div class="signature">
+                    Best regards,<br>
+                    <strong>SecureBank Customer Care Team</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p class="footer-text">This is an automated security notification. Please do not reply to this email.</p>
+            <p class="footer-text">© 2024 SecureBank. All rights reserved.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

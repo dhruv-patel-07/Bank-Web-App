@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .content {
+            margin-bottom: 30px;
+        }
+        .verification-button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            margin: 20px 0;
+            transition: background-color 0.3s ease;
+        }
+        .verification-button:hover {
+            background-color: #2980b9;
+        }
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .email-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 14px;
+            color: #666;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .alternative-link {
+            word-break: break-all;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
+            margin-top: 15px;
+        }
+        @media only screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+            .verification-button {
+                display: block;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">JDBC BANK</div>
+        <p>Account Verification</p>
+    </div>
+
+    <h1>Verify Your Email Address</h1>
+
+    <div class="content">
+        <p>Hello, <strong th:text="${fname}">John Doe</strong></p>
+
+        <p>Thank you for creating an account with us! To complete your registration and secure your account, please verify your email address.</p>
+
+        <div class="email-info">
+            <strong>Email to verify:</strong> <span th:text="${email}">user@example.com</span><br>
+        </div>
+
+        <p>Click the button below to verify your email address:</p>
+
+        <div class="button-container">
+            <a th:href="${url}" class="verification-button">Verify Email Address</a>
+        </div>
+
+        <div class="warning">
+            <strong>Security Notice:</strong> This verification link will expire in 24 hours for your security. If you didn't create an account with us, please ignore this email.
+        </div>
+
+        <p>If the button above doesn't work, you can copy and paste the following link into your browser:</p>
+        <div class="alternative-link" th:text="${url}">
+            https://example.com/verify?token=your-verification-token
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>If you have any questions or need assistance, please contact our support team.</p>
+        <p>&copy; 2025 YourApp. All rights reserved.</p>
+        <p>This is an automated email, please do not reply to this message.</p>
+    </div>
+</div>
+</body>
+</html>

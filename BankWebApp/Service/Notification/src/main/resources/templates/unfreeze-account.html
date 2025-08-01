@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Reactivation Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f8f0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #4CAF50;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .header-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            margin: 0;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 35px;
+        }
+        .success-message {
+            background-color: #e8f5e8;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .success-text {
+            font-size: 18px;
+            color: #2e7d32;
+            font-weight: bold;
+            margin: 0;
+        }
+        .account-info {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .info-header {
+            background-color: #007bff;
+            color: white;
+            margin: -25px -25px 20px -25px;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .info-row {
+            display: table;
+            width: 100%;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .info-label {
+            display: table-cell;
+            font-weight: bold;
+            color: #495057;
+            width: 40%;
+            vertical-align: top;
+        }
+        .info-value {
+            display: table-cell;
+            color: #212529;
+            font-weight: 500;
+            vertical-align: top;
+        }
+        .services-section {
+            margin: 30px 0;
+        }
+        .services-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .services-grid {
+            display: table;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 10px;
+        }
+        .service-row {
+            display: table-row;
+        }
+        .service-item {
+            display: table-cell;
+            background-color: #fff;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            width: 50%;
+            vertical-align: top;
+        }
+        .service-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .service-title {
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 5px;
+        }
+        .service-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        .welcome-back {
+            background-color: #e3f2fd;
+            border: 2px solid #2196F3;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        .welcome-title {
+            font-size: 22px;
+            color: #1976d2;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .welcome-text {
+            color: #1565c0;
+            margin: 0;
+        }
+        .contact-info {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .contact-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        .contact-details {
+            color: #856404;
+        }
+        .phone-number {
+            color: #0066cc;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .closing {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .signature {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .signature-name {
+            font-weight: bold;
+            color: #2e7d32;
+            font-size: 16px;
+        }
+        .signature-title {
+            color: #666;
+            font-size: 14px;
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .footer-text {
+            font-size: 12px;
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <span class="header-icon">✅</span>
+        <h1 class="header-title">Account Reactivated!</h1>
+        <p class="header-subtitle">Your SecureBank account is now active</p>
+    </div>
+
+    <div class="content">
+        <div class="success-message">
+            <p class="success-text">🎉 Welcome Back! Your account has been successfully unfrozen.</p>
+        </div>
+
+        <div class="account-info">
+            <div class="info-header">📋 Account Details</div>
+            <div class="info-row">
+                <div class="info-label">Account Number:</div>
+                <div class="info-value" th:text="${accountNum}">XXXXXXXXXX1234</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Reactivated Date:</div>
+                <div class="info-value" th:text="${#temporals.format(Date, 'dd/MM/yyyy')}">01/01/2024</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Time:</div>
+                <div class="info-value" th:text="${#temporals.format(Date, 'HH:mm')}">10:30</div>
+            </div>
+            <div class="info-row" th:if="${remark != null and !#strings.isEmpty(remark)}">
+                <div class="info-label">Notes:</div>
+                <div class="info-value" th:text="${remark}">Account verified and cleared</div>
+            </div>
+        </div>
+
+        <div class="services-section">
+            <div class="services-title">🔓 Services Now Available</div>
+            <div class="services-grid">
+                <div class="service-row">
+                    <div class="service-item">
+                        <span class="service-icon">💳</span>
+                        <div class="service-title">Card Payments</div>
+                        <div class="service-desc">Debit card transactions active</div>
+                    </div>
+                    <div class="service-item">
+                        <span class="service-icon">📱</span>
+                        <div class="service-title">Mobile Banking</div>
+                        <div class="service-desc">Full app access restored</div>
+                    </div>
+                </div>
+                <div class="service-row">
+                    <div class="service-item">
+                        <span class="service-icon">🏧</span>
+                        <div class="service-title">ATM Access</div>
+                        <div class="service-desc">Cash withdrawals enabled</div>
+                    </div>
+                    <div class="service-item">
+                        <span class="service-icon">🔄</span>
+                        <div class="service-title">Online Transfers</div>
+                        <div class="service-desc">All transfer services active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="welcome-back">
+            <div class="welcome-title">Ready to Bank Again?</div>
+            <p class="welcome-text">All your banking services have been fully restored. You can now use your account normally.</p>
+        </div>
+
+        <div class="contact-info">
+            <div class="contact-title">Need Assistance?</div>
+            <div class="contact-details">
+                Customer Service: <a href="tel:1-800-732-8731" class="phone-number">1-800-SECURE-1</a><br>
+                Available 24/7 for your banking needs
+            </div>
+        </div>
+
+        <div class="closing">
+            <p>Thank you for your patience while we ensured the security of your account.</p>
+            <p>We're here to serve you with secure and reliable banking services.</p>
+
+            <div class="signature">
+                <div class="signature-name">SecureBank Customer Care Team</div>
+                <div class="signature-title">Your Financial Security Partner</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p class="footer-text">This is an automated notification. Please do not reply to this email.</p>
+        <p class="footer-text">© 2024 SecureBank. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>

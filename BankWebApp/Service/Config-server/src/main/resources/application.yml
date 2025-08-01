@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active:
+      - native
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/configurations
+
+management:        # Enables circuit breaker health indicators
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+server:
+  port: 8888

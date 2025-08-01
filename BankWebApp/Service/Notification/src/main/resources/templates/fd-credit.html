@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Deposit Confirmation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .email-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        .header .subtitle {
+            font-size: 16px;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+        .body-content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+        .main-message {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        .transaction-details {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 25px 0;
+            border-left: 4px solid #1e3c72;
+        }
+        .transaction-details h3 {
+            margin-top: 0;
+            color: #1e3c72;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .detail-value {
+            color: #212529;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .amount-highlight {
+            color: #28a745;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        .info-box {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .info-box h4 {
+            margin-top: 0;
+            color: #155724;
+            font-size: 16px;
+        }
+        .info-box p {
+            margin-bottom: 0;
+            color: #155724;
+            font-size: 14px;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .footer h4 {
+            margin-top: 0;
+            color: #333;
+            font-size: 16px;
+        }
+        .footer p {
+            margin: 8px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .footer .disclaimer {
+            font-size: 12px;
+            color: #999;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        @media (max-width: 600px) {
+            .email-wrapper {
+                margin: 10px;
+            }
+            .header, .body-content, .footer {
+                padding: 25px 20px;
+            }
+            .detail-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            .transaction-details {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-wrapper">
+    <div class="header">
+        <h1>Fixed Deposit</h1>
+        <div class="subtitle">Transaction Confirmation</div>
+    </div>
+
+    <div class="body-content">
+        <div class="greeting">
+            Dear Valued Customer,
+        </div>
+
+        <div class="main-message">
+            We are writing to confirm your Fixed Deposit transaction. Your investment has been processed successfully and is now active in your account.
+        </div>
+
+        <div class="transaction-details">
+            <h3>Transaction Summary</h3>
+
+            <div class="detail-item">
+                <span class="detail-label">Account Number</span>
+                <span class="detail-value" th:text="${accountNum}">XXXX-XXXX-XXXX</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Deposit Amount</span>
+                <span class="detail-value amount-highlight" th:text="'₹' + ${#numbers.formatDecimal(amount, 0, 2)}">₹0.00</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Transaction Date & Time</span>
+                <span class="detail-value" th:text="${date}">01 January 2024, 12:00 PM</span>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h4>What's Next?</h4>
+            <p>Your Fixed Deposit certificate will be sent to your registered mailing address within 7-10 business days. You can also download a digital copy from your online banking portal.</p>
+        </div>
+
+        <div class="main-message">
+            Thank you for choosing our Fixed Deposit services. Your trust in us is greatly appreciated, and we look forward to serving you in the future.
+        </div>
+    </div>
+
+    <div class="footer">
+        <h4>Need Help?</h4>
+        <p><strong>Customer Service:</strong> 1800-XXX-XXXX</p>
+        <p><strong>Email Support:</strong> support@yourbank.com</p>
+        <p><strong>Online Banking:</strong> www.yourbank.com</p>
+
+        <div class="disclaimer">
+            This is an automated email confirmation. Please do not reply to this message.
+            For any queries, please contact our customer service team.
+        </div>
+    </div>
+</div>
+</body>
+</html>

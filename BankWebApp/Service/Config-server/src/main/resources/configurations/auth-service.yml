@@ -1,0 +1,70 @@
+server:
+  port: 8080
+
+keycloak:
+  server-url: http://localhost:9098
+  realm: bank-web-app
+  client-id: bank-web-app
+  client-secret: DLgeq3UxbdxF6TGwIoqasUNUViyCMPjp
+  admin-username: admin
+  admin-password: admin
+
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping: AuthDto:com.bank.web.app.auth.kafka.AuthDto,RedisTokenDto:com.bank.web.app.auth.kafka.RedisTokenDto
+
+  datasource:
+    url: jdbc:postgresql://localhost:5435/users
+    username: dhruv
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+kafkaTopic:
+  topic: authTopic
+  redisTopic: authRedisToken
+
+# Ratelimiting
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+  endpoint:
+    health:
+      show-details: ALWAYS
+#
+resilience4j:
+  circuitbreaker:
+    instances:
+      authservice:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 7s
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+
+  ratelimiter:
+    instances:
+      verifyRateLimiter:
+        limit-refresh-period: 5s
+        limit-for-period: 10
+        timeout-duration: 1s
