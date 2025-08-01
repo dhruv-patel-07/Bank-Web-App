@@ -110,14 +110,13 @@ curl -X POST \
 ## Rate Limiter
 <pre markdown="1">
 
-```
+
 resilience4j.ratelimiter:
   instances:
     transactionApi:
       limitForPeriod: 10
       limitRefreshPeriod: 5s
       timeoutDuration: 1s
-```
 
 </pre>
 
